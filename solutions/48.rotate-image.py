@@ -39,23 +39,22 @@ from typing import *
 
 # @leet start
 class Solution:
-    def canCompleteCircuit(self, gas: List[int], cost: List[int]) -> int:
-        value = [x - y for x, y in zip(gas, cost)]
-        # impossible if sum(gas) < sum(cost), always possible otherwise
-        if sum(value) < 0:
-            return -1
+    def rotate(self, matrix: List[List[int]]) -> None:
+        """
+        Do not return anything, modify matrix in-place instead.
+        """
 
-        running_value = 0
-        global_min = (0, 0)
-        for i, v in enumerate(value):
-            if running_value < global_min[1]:
-                # we want to start at global min, because everything will be
-                # above it
-                global_min = i, running_value
+        N = len(matrix)
 
-            running_value += v
+        # flip matrix along y = 0
+        for i in range(N // 2):
+            matrix[i], matrix[N - i - 1] = matrix[N - i - 1], matrix[i]
 
-        return global_min[0]
+        # transpose matrix along diagonal
+        for i in range(N):
+            for j in range(i):
+                matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
 
 
 # @leet end
+

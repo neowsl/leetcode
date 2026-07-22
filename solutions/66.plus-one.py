@@ -39,23 +39,26 @@ from typing import *
 
 # @leet start
 class Solution:
-    def canCompleteCircuit(self, gas: List[int], cost: List[int]) -> int:
-        value = [x - y for x, y in zip(gas, cost)]
-        # impossible if sum(gas) < sum(cost), always possible otherwise
-        if sum(value) < 0:
-            return -1
+    def plusOne(self, digits: List[int]) -> List[int]:
+        N = len(digits)
 
-        running_value = 0
-        global_min = (0, 0)
-        for i, v in enumerate(value):
-            if running_value < global_min[1]:
-                # we want to start at global min, because everything will be
-                # above it
-                global_min = i, running_value
+        carry = 1
+        ans: list[int] = [0] * N
 
-            running_value += v
+        for i in reversed(range(N)):
+            new_digit = digits[i] + carry
 
-        return global_min[0]
+            if new_digit > 9:
+                ans[i] = new_digit % 10
+                carry = 1
+            else:
+                ans[i] = new_digit
+                carry = 0
+
+        if carry == 1:
+            ans.insert(0, 1)
+
+        return ans
 
 
 # @leet end

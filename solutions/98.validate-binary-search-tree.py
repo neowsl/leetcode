@@ -38,24 +38,27 @@ from typing import *
 
 
 # @leet start
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
 class Solution:
-    def canCompleteCircuit(self, gas: List[int], cost: List[int]) -> int:
-        value = [x - y for x, y in zip(gas, cost)]
-        # impossible if sum(gas) < sum(cost), always possible otherwise
-        if sum(value) < 0:
-            return -1
+    def isValidBST(self, root: Optional[TreeNode]) -> bool:
+        def is_valid_bst(root: Optional[TreeNode], min_val: int, max_val: int):
+            if not root:
+                return True
 
-        running_value = 0
-        global_min = (0, 0)
-        for i, v in enumerate(value):
-            if running_value < global_min[1]:
-                # we want to start at global min, because everything will be
-                # above it
-                global_min = i, running_value
+            if root.val <= min_val or root.val >= max_val:
+                return False
 
-            running_value += v
+            return is_valid_bst(root.left, min_val, root.val) and is_valid_bst(
+                root.right, root.val, max_val
+            )
 
-        return global_min[0]
+        return is_valid_bst(root, -(1 << 32), 1 << 32)
 
 
 # @leet end
+
